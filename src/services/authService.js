@@ -50,7 +50,16 @@ export const signupUser = async (userData) => {
       throw new Error(response.data.message || 'Signup failed');
     }
   } catch (error) {
-    throw new Error(error.response?.data?.message || error.message || 'Signup failed');
+    // Handle network errors (no response from server)
+    if (error.code === 'ERR_NETWORK' || error.message === 'Network Error' || !error.response) {
+      throw new Error('Network Error: Unable to connect to the server. Please check your internet connection and try again.');
+    }
+    // Handle server errors with response
+    if (error.response) {
+      throw new Error(error.response.data?.message || `Server error: ${error.response.status} ${error.response.statusText}`);
+    }
+    // Handle other errors
+    throw new Error(error.message || 'Signup failed. Please try again.');
   }
 };
 
@@ -63,7 +72,16 @@ export const loginUser = async (credentials) => {
       throw new Error(response.data.message || 'Login failed');
     }
   } catch (error) {
-    throw new Error(error.response?.data?.message || error.message || 'Login failed');
+    // Handle network errors (no response from server)
+    if (error.code === 'ERR_NETWORK' || error.message === 'Network Error' || !error.response) {
+      throw new Error('Network Error: Unable to connect to the server. Please check your internet connection and try again.');
+    }
+    // Handle server errors with response
+    if (error.response) {
+      throw new Error(error.response.data?.message || `Server error: ${error.response.status} ${error.response.statusText}`);
+    }
+    // Handle other errors
+    throw new Error(error.message || 'Login failed. Please try again.');
   }
 };
 
