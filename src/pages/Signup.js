@@ -26,7 +26,7 @@ const Signup = () => {
 
   const validatePhone = (phone) => {
     const phoneRegex = /^[0-9]{10,15}$/;
-    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
+    return phoneRegex.test(phone.replace(/[\s\-()]/g, ''));
   };
 
   const validateForm = () => {
